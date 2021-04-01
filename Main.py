@@ -1,18 +1,23 @@
-from BasicFilters import Filter, MeanFilter, MedianFilter, LaplacianFilter
+from BasicFilters import Filter, MeanFilter, MedianFilter, LaplacianFilter, OpeningFilter
 import cv2 as cv
 import numpy as np
 import os
 import random
 random.seed(10)
 
-path = r"E:\20202\Image Processing\Project3\Original_data\Degraded"
+kernel = cv.getStructuringElement(cv.MORPH_CROSS, (5,5))
+
+path = r"Original_data\Degraded"
 random_file = random.choice(os.listdir(path))
 img = cv.imread(path + "\\"  + random_file , 0)
 
 Filter.setInputImage(img)
-mean_filter = LaplacianFilter(3)
+mean_filter = LaplacianFilter()
 
-cv.imshow("asdf", mean_filter.filterImage() )
+opening_filter = OpeningFilter()
+
+cv.imshow("origin", img)
+cv.imshow("asdf", opening_filter.filterImage())
 
 cv.waitKey(0)
 cv.destroyAllWindows()
