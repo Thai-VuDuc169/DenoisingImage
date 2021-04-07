@@ -1,9 +1,12 @@
-from BasicFilters import Filter, MeanFilter, MedianFilter, LaplacianFilter, OpeningFilter
-import cv2 as cv
-import numpy as np
-import os
 import random
-random.seed(10)
+# random.seed(11)
+import numpy as np
+import cv2 as cv
+import os
+from BasicFilters import Filter, MeanFilter, MedianFilter, LaplacianFilter, OpeningFilter
+from DenoiseUsingDL import Autodecoder
+import matplotlib.pyplot as plt
+
 
 kernel = cv.getStructuringElement(cv.MORPH_CROSS, (5,5))
 
@@ -15,9 +18,12 @@ Filter.setInputImage(img)
 mean_filter = LaplacianFilter()
 
 opening_filter = OpeningFilter()
+auto = Autodecoder()
 
+# cv.imshow("asdf", opening_filter.filterImage())
+# cv.imshow("autodecoder", auto.filterImage()[0,:,:,:] )
+plt.imshow(auto.filterImage()[0,:,:,:], "gray")
 cv.imshow("origin", img)
-cv.imshow("asdf", opening_filter.filterImage())
 
 cv.waitKey(0)
 cv.destroyAllWindows()
