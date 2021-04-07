@@ -56,7 +56,7 @@ class GaussianBlur(Filter):
         return cv.GaussianBlur(Filter.input_mat, self.kernel, sigma_X)
 
 class LaplacianFilter(Filter):
-    def __init__(self, kernel):
+    def __init__(self, kernel = 3):
         # kernel is a odd interger
         super().__init__(kernel)
 
@@ -65,6 +65,4 @@ class LaplacianFilter(Filter):
 
     def filterImage(self):
         return cv.Laplacian(Filter.input_mat, cv.CV_64F, ksize= self.kernel)
-
-class
 
