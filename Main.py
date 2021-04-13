@@ -18,7 +18,6 @@ random_file = random.choice(os.listdir(current_folder_path + "\\Original_data\\D
 in_img = cv.imread(current_folder_path + "\\Original_data\\Degraded\\" + random_file, 0)
 out_img = cv.imread(current_folder_path + "\\Original_data\\Clean\\" + random_file, 0) 
 
-# Filter.setInputImage(in_img)
 mean_filter = MeanFilter()
 median_filter = MedianFilter()
 gaussian_blur = GaussianBlur()
