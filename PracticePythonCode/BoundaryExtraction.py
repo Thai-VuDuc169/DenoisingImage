@@ -8,7 +8,7 @@ current_folder_path = str(pathlib.Path(__file__).parent.absolute())
 print("Hello {}!, the current folder path is '{}' in this system"
         .format(os.getlogin(), current_folder_path ))
        
-img = cv.imread(current_folder_path + "//TestBoundary.png", 0) # GeomatryShape.jpeg
+img = cv.imread(current_folder_path + "//TestConnectedComponent.png", 0) # GeomatryShape.jpeg
 _, img = cv.threshold(img, 127, 255, cv.THRESH_BINARY_INV)
 
 def extractInBound(img):     # Inner Boundary Extraction
