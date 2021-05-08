@@ -3,14 +3,21 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import pathlib
 import os
+from BoundaryExtraction import extractInBound 
+np.random.seed(42)
 
 current_folder_path = str(pathlib.Path(__file__).parent.absolute())
 print("Hello {}!, the current folder path is '{}' in this system"
         .format(os.getlogin(), current_folder_path ))
 
 
-img = cv.imread(current_folder_path + "//TestConnectedComponent2.png", 0) # GeomatryShape.jpeg
+img = cv.imread(current_folder_path + "//TestConnectedComponent2.png", 0) # "//ImgTestResource//VietAnh2.jpg"
+
 _, img = cv.threshold(img, 127, 255, cv.THRESH_BINARY_INV)
+# img = cv.xphoto.oilPainting(src= img, size= 6, dynRatio= 1)
+# img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+# plt.imshow(img, "gray")
+# plt.show()
 
 def getNeighborsLabels(img, x, y, labels): # 8-connectivity
   # điểm (0, 0)
@@ -54,9 +61,11 @@ def getUnion(*args):
   final_list = list(set().union(*args))
   return final_list
 
-def countTrueLabel(*args):
-  # idea: split the array then union arrays
-  return len(set().union(*args))
+def minLabelsList(linked):
+  # idea: min elements of the nested array then union arrays, count them
+  for i in range(len(linked)):
+    linked[i] = min(linked[i])
+  # return len(set().union(linked))
 
 def connectComponent(img):
   h, w = img.shape
@@ -81,56 +90,54 @@ def connectComponent(img):
           except:
             continue
   #second pass
-  # count_labels = len(set().union(linked))
-  print (countTrueLabel(linked))
-  # for column in range(w):
-  #   if label[row][column] != 0:
-  #     current_label = label[row][column]
-  return labels, linked
-# la, link = connectComponent(img)
-# print(la)
-# print ("asdfasdf")
-# print(link)
+  minLabelsList(linked)
+  for row in range(h):
+    for column in range(w):
+      if labels[row][column] != 0: 
+        labels[row][column] = linked[ (labels[row][column])-1 ]
+  true_val_labels = set().union(linked)  
+  return true_val_labels, labels 
 
-a = [[1,2,3],[1,2,3], [2,3], [2,3], [3,4]]
-print (countTrueLabel(a))
+# present result with colors
+def genColor(num_colors):
+  temp_colors = []
+  for i in range(num_colors):
+    color = list(np.random.choice(range(256), size=3))
+    temp_colors.append(color)
+  return temp_colors
 
+def showResult(labels_val, labels):
+  color_list = genColor(len(labels_val)) # tạo ra mảng chứa số lượng màu tương ứng với các labels
+  color_dict = dict(zip(labels_val, color_list)) # key: labels; value: mỗi màu tương ứng với từng labels
+  result = np.zeros((labels.shape[0], labels.shape[1], 3)) # mảng chứa kết quả
+  for row in range(labels.shape[0]):
+    for column in range(labels.shape[1]):
+      if(labels[row][column] != 0):
+        # gán các màu tương ứng với từng labels trong color_dict
+        result[row, column] = color_dict[labels[row][column]]  
+  return result
 
-  # for row in range(h):
-
-# def a(b):
-#      b[0] = 1
-#      print (b)
-
-# img = np.array([0,2,2,2,2,2,2,2,2,2,2,2,2,2,2])
-# a(img)
-# print (img)
-              
-    
-          
-
-
-
-
-
-
-
-
-
-# titles = [ 'INPUT IMAGE', 'INNER BOUNDARY EXTRACTION', 'OUTER BOUNDARY EXTRACTION']
-# images = [img, extractInBound(img), extractOutBound(img)]
-# for i in range(len(titles)):
-#         plt.subplot(2, 2, i+1)
-#         plt.title(titles[i])
-#         plt.imshow(images[i], "gray")
-#         plt.xticks(ticks=[])
-#         plt.yticks(ticks=[])
-# plt.show()
+# main
+labels_val, labels = connectComponent(img)
+result = showResult(labels_val, labels).astype(int)
+print(labels)
+print("labels' value: ", labels_val)
+plt.subplot(121)
+plt.title("INPUT IMAGE")
+plt.imshow(img, "gray")
+plt.axis('off')
+plt.subplot(122)
+plt.title("RESULT")
+plt.imshow(showResult(labels_val, labels).astype(int))
+plt.axis('off')
+plt.show()
 
 
 
 
 
+
+# =============A EXAMPLE USE THE SKIMAGE LIBARARY===============
 
 # from skimage import measure
 # from skimage import filters

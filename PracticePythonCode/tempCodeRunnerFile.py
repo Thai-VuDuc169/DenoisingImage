@@ -1,3 +1,2 @@
-
-  #   if label[row][column] != 0:
-  #     current_label = label[row][column]
+plt.imshow(showResult(labels_val, labels))
+plt.show()
