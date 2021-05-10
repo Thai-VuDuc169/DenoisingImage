@@ -12,7 +12,6 @@ print("Hello {}!, the current folder path is '{}' in this system"
 
 
 img = cv.imread(current_folder_path + "//TestConnectedComponent2.png", 0) # "//ImgTestResource//VietAnh2.jpg"
-
 _, img = cv.threshold(img, 127, 255, cv.THRESH_BINARY_INV)
 # img = cv.xphoto.oilPainting(src= img, size= 6, dynRatio= 1)
 # img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
@@ -62,10 +61,13 @@ def getUnion(*args):
   return final_list
 
 def minLabelsList(linked):
-  # idea: min elements of the nested array then union arrays, count them
-  for i in range(len(linked)):
-    linked[i] = min(linked[i])
-  # return len(set().union(linked))
+  # idea: min elements of the nested array then union arrays, count them 
+    for i in range(len(linked)):
+      try:
+        linked[i] = min(linked[i])
+      except:
+        # trường hợp xảy ra linked[i] chứa [] - a empty list
+        continue
 
 def connectComponent(img):
   h, w = img.shape
@@ -90,6 +92,8 @@ def connectComponent(img):
           except:
             continue
   #second pass
+  # if (not linked):
+  #      print("failldlldll")
   minLabelsList(linked)
   for row in range(h):
     for column in range(w):
