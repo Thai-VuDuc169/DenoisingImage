@@ -64,7 +64,8 @@ class LaplacianFilter(Filter):
         return "Laplacian Filter"
 
     def filterImage(self):
-        return cv.Laplacian(Filter.input_mat, cv.CV_64F, ksize= self.kernel)
+        laplacian_filter = cv.Laplacian(Filter.input_mat, cv.CV_64F, ksize= self.kernel)
+        return np.uint8(laplacian_filter)
 
 class OpeningFilter(Filter):
     def __init__ (self, kernel= cv.getStructuringElement(cv.MORPH_CROSS, (5,5)) ):

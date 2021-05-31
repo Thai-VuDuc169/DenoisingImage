@@ -33,7 +33,7 @@ class Display:
             plt.title(elem)
             temp_img = elem.filterImage()
             plt.imshow(temp_img, "gray")
-            plt.ylabel("SSIM: {0:.3}\nPSNR: {1:.3}"
+            plt.ylabel("PSNR: {0:.3} dB\nSSIM: {1:.3}"
                         .format(*evaluator.evalImages(temp_img)))
             plt.xticks(ticks=[])
             plt.yticks(ticks=[])

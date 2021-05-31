@@ -6,7 +6,7 @@ import numpy as np
 import cv2 as cv
 import os
 import random
-random.seed(10)
+random.seed(10) # or 1
 import pathlib
 
 current_folder_path = str(pathlib.Path(__file__).parent.absolute())
